@@ -14,13 +14,15 @@ import {
   InputContainer,
 } from './styledComponents'
 
+
 class Login extends Component {
   state = {
     userId: '',
-    userPin: '',
+    pin: '',
     showSubmitError: false,
     errorMsg: '',
   }
+
 
   onChangeUserId = event => {
     this.setState({
@@ -28,17 +30,20 @@ class Login extends Component {
     })
   }
 
+
   onChangeUserPin = event => {
     this.setState({
-      userPin: event.target.value,
+      pin: event.target.value,
     })
   }
+
 
   onSubmitSuccess = jwtToken => {
     const {history} = this.props
     Cookies.set('jwt_token', jwtToken, {expires: 30})
     history.replace('/')
   }
+
 
   onSubmitFailure = errorMsg => {
     this.setState({
@@ -47,10 +52,11 @@ class Login extends Component {
     })
   }
 
+
   onSubmitForm = async event => {
     event.preventDefault()
-    const {userId, userPin} = this.state
-    const userDetails = {userId, userPin}
+    const {userId, pin} = this.state
+    const userDetails = {user_id: userId, pin}
     const loginUrl = 'https://apis.ccbp.in/ebank/login'
     const options = {
       mode: 'cors',
@@ -66,8 +72,10 @@ class Login extends Component {
     }
   }
 
+
   renderUserIdField = () => {
     const {userId} = this.state
+
 
     return (
       <>
@@ -83,15 +91,17 @@ class Login extends Component {
     )
   }
 
+
   renderUserPinField = () => {
-    const {userPin} = this.state
+    const {pin} = this.state 
+
 
     return (
       <>
         <InputLabel htmlFor="userPin">PIN</InputLabel>
         <InputField
           type="password"
-          value={userPin}
+          value={pin} 
           id="userPin"
           placeholder="Enter PIN"
           onChange={this.onChangeUserPin}
@@ -99,6 +109,7 @@ class Login extends Component {
       </>
     )
   }
+
 
   render() {
     const {showSubmitError, errorMsg} = this.state
@@ -116,6 +127,7 @@ class Login extends Component {
           <FormContainer onSubmit={this.onSubmitForm}>
             <LoginWelcomeHeading>Welcome Back!</LoginWelcomeHeading>
 
+
             <InputContainer>{this.renderUserIdField()}</InputContainer>
             <InputContainer>{this.renderUserPinField()}</InputContainer>
             <LoginButton type="submit">Login</LoginButton>
@@ -126,5 +138,6 @@ class Login extends Component {
     )
   }
 }
+
 
 export default Login
